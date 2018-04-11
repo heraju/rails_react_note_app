@@ -27,7 +27,10 @@ class List extends React.Component {
   render() {
     const { notes } = this.state
     return notes.length ? this.renderList() : (
+      <div>
+      <a onClick={this.newNote.bind(this)} className='btn'>New Note</a>
       <span>Loading notes...</span>
+      </div>
     )
   }
 
