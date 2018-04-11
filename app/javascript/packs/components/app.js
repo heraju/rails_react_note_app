@@ -6,7 +6,7 @@ import List from './list'
 class App extends React.Component {
   render(){
     return(
-      <div>
+      <div className="container-fluid">
         <h1>Notes</h1>
         <List />
       </div>
