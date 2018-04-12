@@ -45,7 +45,8 @@ class NoteDetail extends React.Component {
       redirect: 'follow',
       referrer: 'no-referrer',
     })
-    .then(response => response.json()) // parses response to JSON
+    .then(response => response.json())
+    .then(this.props.onUpdate)
   }
 
   handleDelete(i) {
@@ -79,6 +80,13 @@ class NoteDetail extends React.Component {
     this.setState({title: event.target.value}, () => this.APICallFunction());
   }
 
+  deleteMe(){
+    var url = "/api/notes/"+this.state.id.$oid;
+    fetch(url, {
+    method: 'delete'
+    }).then(response => response.json())
+      .then(this.props.onDelete)
+  }
 
   render(){
     if (this.props.note.id != this.state.id){
@@ -93,6 +101,7 @@ class NoteDetail extends React.Component {
                     handleDelete={this.handleDelete}
                     handleAddition={this.handleAddition}
                     handleDrag={this.handleDrag} />
+        <button onClick={this.deleteMe.bind(this)}>delete</button>
       </div>
 
     );

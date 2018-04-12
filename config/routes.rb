@@ -3,6 +3,6 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   namespace :api do
-    resources :notes, only: %i(index create update show)
+    resources :notes, only: %i(index create update show destroy)
   end
 end

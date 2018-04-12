@@ -5,7 +5,8 @@ class Api::NotesController < Api::ApiController
   end
 
   def create
-    render json: Note.create(note_params)
+    Note.create(note_params)
+    render json: Note.all.map{|note| {id: note.id, title: note.title, description: note.description.to_s, tags: note.tags.to_a }}
   end
 
   def show
@@ -14,6 +15,10 @@ class Api::NotesController < Api::ApiController
 
   def update
     render json: note.update_attributes(note_params)
+  end
+
+  def destroy
+    render json: note.destroy
   end
 
   private

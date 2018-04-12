@@ -24,6 +24,18 @@ class List extends React.Component {
       .then(data => this.setState({ notes: data, selected: data[0] }));
   }
 
+  updateMeDelete() {
+    fetch('/api/notes')
+      .then(response => response.json())
+      .then(data => this.setState({ notes: data, selected: data[0] }));
+  }
+
+  updateMe() {
+    fetch('/api/notes')
+      .then(response => response.json())
+      .then(data => {this.setState({ notes: data})});
+  }
+
   render() {
     const { notes } = this.state
     return notes.length ? this.renderList() : (
@@ -41,6 +53,18 @@ class List extends React.Component {
     this.setState({ selected: note });
   }
 
+  checkNote(){
+    const { notes, selected } = this.state;
+    if(notes == undefined)
+      return;
+    var note = notes.find(function(element) {
+      return element.id == selected.id;
+    });
+    debugger;
+
+    if(note == undefined){this.setState({ selected: notes[0] });}
+
+  }
   postData(url, data) {
     return fetch(url, {
       body: JSON.stringify(data),
@@ -55,7 +79,8 @@ class List extends React.Component {
       redirect: 'follow',
       referrer: 'no-referrer',
     })
-    .then(this.componentDidMount) // parses response to JSON
+    .then(response => response.json())
+    .then(data => this.setState({ notes: data, selected: data[(data.length-1)] }));
   }
 
   newNote(){
@@ -78,7 +103,7 @@ class List extends React.Component {
               </ul>
             </div>
             <div className="col-md-10">
-              <NoteDetail note={selected} />
+              <NoteDetail note={selected} onUpdate={this.updateMe.bind(this)} onDelete={this.updateMeDelete.bind(this)}/>
             </div>
           </div>
         </div>
